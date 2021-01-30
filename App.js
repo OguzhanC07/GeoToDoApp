@@ -1,21 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Provider } from "react-redux";
+import ReduxThunk from "redux-thunk";
+import { createStackNavigator } from "@react-navigation/stack";
+
+import activityReducer from "./store/reducers/activity";
+import authReducer from "./store/reducers/auth";
+
+import StartupScreen from "./screens/StartupScreen";
+import ContainerNavigator from "./navigation/ContainerNavigatior";
+
+const rootReducer = combineReducers({
+  activity: activityReducer,
+  auth: authReducer,
+});
+
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <SafeAreaProvider>
+        <Stack.Screen name="Startup" component={StartupScreen} />
+        <ContainerNavigator />
+      </SafeAreaProvider>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
