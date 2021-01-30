@@ -1,0 +1,2 @@
+# GeoToDoApp
+Bitirme Tezi Projesi
