@@ -38,7 +38,6 @@ const RegisterScreen = (props) => {
     setIsLoading(true);
     try {
       await dispatch(action);
-      props.navigation.navigate("Target");
     } catch (error) {
       setError(error.message);
       setIsLoading(false);

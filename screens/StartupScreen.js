@@ -22,8 +22,6 @@ const StartupScreen = (props) => {
         props.navigation.navigate("Auth");
         return;
       }
-
-      props.navigation.navigate("Target");
       dispatch(authActions.authenticate(userId, token));
     };
 

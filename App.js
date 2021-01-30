@@ -8,7 +8,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import activityReducer from "./store/reducers/activity";
 import authReducer from "./store/reducers/auth";
 
-import StartupScreen from "./screens/StartupScreen";
 import ContainerNavigator from "./navigation/ContainerNavigatior";
 
 const rootReducer = combineReducers({
@@ -24,7 +23,6 @@ export default function App() {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
-        <Stack.Screen name="Startup" component={StartupScreen} />
         <ContainerNavigator />
       </SafeAreaProvider>
     </Provider>

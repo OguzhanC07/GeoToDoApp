@@ -37,7 +37,7 @@ export const signup = (username, email, password, name, surname) => {
     }
 
     const resData = await response.json();
-    dispatch(authenticate(resData.userId, resData.token));
+    dispatch(authenticate(resData.id, resData.token));
     const expirationDate = new Date(
       new Date().getTime() + resData.expiresIn * 1000
     );
@@ -69,7 +69,7 @@ export const login = (email, password) => {
 
     const resData = await response.json();
     console.log(resData);
-    dispatch(authenticate(resData.userId, resData.token));
+    dispatch(authenticate(resData.id, resData.token));
     const expirationDate = new Date(
       new Date().getTime() + resData.expiresIn * 1000
     );
