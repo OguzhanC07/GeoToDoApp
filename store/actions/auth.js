@@ -68,7 +68,6 @@ export const login = (email, password) => {
     }
 
     const resData = await response.json();
-    console.log(resData);
     dispatch(authenticate(resData.id, resData.token));
     const expirationDate = new Date(
       new Date().getTime() + resData.expiresIn * 1000

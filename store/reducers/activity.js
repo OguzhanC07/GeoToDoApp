@@ -1,5 +1,5 @@
 import Activity from "../../models/activity";
-import { CREATE_ACTIVITY } from "../actions/activity";
+import { CREATE_ACTIVITY, SET_ACTIVITY } from "../actions/activity";
 
 const initialState = {
   availableActivities: [],
@@ -20,6 +20,10 @@ export default (state = initialState, action) => {
       return {
         ...state,
         availableActivities: state.availableActivities.concat(newActivity),
+      };
+    case SET_ACTIVITY:
+      return {
+        availableActivities: action.activities,
       };
     default:
       return state;

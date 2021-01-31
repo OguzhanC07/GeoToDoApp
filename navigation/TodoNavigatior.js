@@ -10,6 +10,9 @@ import { DrawerContent } from "../content/DrawerContent";
 
 import ActivityOverviewScreen from "../screens/Activity/ActivityOverviewScreen";
 import ActivityAddScreen from "../screens/Activity/ActivityAddScreen";
+import ActivityDetailScreen, {
+  screenOptions as activityDetailScreenOptions,
+} from "../screens/Activity/ActivityDetailScreen";
 import TargetOverviewScreen from "../screens/Target/TargetOverviewScreen";
 import TargetAddScreen from "../screens/Target/TargetAddScreen";
 
@@ -81,6 +84,11 @@ const ActivityStackScreen = ({ navigation }) => {
         options={{
           title: "Yeni aktivite ekle",
         }}
+      />
+      <ActivityStack.Screen
+        name="ActivityDetail"
+        component={ActivityDetailScreen}
+        options={activityDetailScreenOptions}
       />
     </ActivityStack.Navigator>
   );

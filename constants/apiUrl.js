@@ -1,3 +1,3 @@
 export default {
-  baseUrl: "http://e02b91db2b2f.ngrok.io/api/",
+  baseUrl: "http://79793704167d.ngrok.io/api/",
 };
