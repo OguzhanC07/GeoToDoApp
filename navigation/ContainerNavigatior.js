@@ -1,5 +1,6 @@
-import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
+import { StatusBar } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -13,6 +14,7 @@ const ContainerNavigator = (props) => {
   const isAuth = useSelector((state) => !!state.auth.token);
   return (
     <NavigationContainer>
+      <StatusBar hidden={true} />
       {isAuth ? <TodoNavigatior /> : <AuthNavigatior />}
     </NavigationContainer>
   );

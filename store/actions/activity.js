@@ -3,6 +3,7 @@ import Activity from "../../models/activity";
 
 export const CREATE_ACTIVITY = "CREATE_ACTIVITY";
 export const SET_ACTIVITY = "SET_ACTIVITY";
+export const DELETE_ACTIVITY = "DELETE_ACTIVITY";
 
 export const fetchActivity = () => {
   return async (dispatch, getState) => {
@@ -25,7 +26,7 @@ export const fetchActivity = () => {
       for (const key in resData) {
         loadedActivities.push(
           new Activity(
-            key,
+            resData[key].id.toString(),
             resData[key].name,
             resData[key].description,
             resData[key].selectedTime,
@@ -38,10 +39,36 @@ export const fetchActivity = () => {
       dispatch({
         type: SET_ACTIVITY,
         activities: loadedActivities,
+        location: loadedActivities.filter(
+          (act) => act.latitude !== 0 && act.longitude !== 0
+        ),
       });
     } catch (err) {
       console.log(err);
       throw err;
+    }
+  };
+};
+
+export const deleteActivity = (activityId) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    try {
+      const response = await fetch(apiUrl.baseUrl + `activity/${activityId}`, {
+        method: "Delete",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Ooops! Bir şeyler ters gitti");
+      }
+
+      dispatch({ type: DELETE_ACTIVITY, aid: activityId });
+    } catch (err) {
+      console.log(err);
     }
   };
 };

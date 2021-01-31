@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,6 +12,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import MapView, { Marker } from "react-native-maps";
 import { useDispatch } from "react-redux";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
 
 import * as activityActions from "../../store/actions/activity";
 
@@ -22,8 +24,47 @@ const ActivityAddScreen = (props) => {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState();
-
   const [openMap, setOpenMap] = useState(false);
+  const [region, setRegion] = useState();
+
+  const verifyPermissions = async () => {
+    const result = await Permissions.askAsync(Permissions.LOCATION);
+    if (result.status !== "granted") {
+      Alert.alert(
+        "Gerekli izinler alınamadı",
+        "Uygulamayı düzgün kullanabilmek için izin vermeniz gereklidir.",
+        [{ text: "Tamam" }]
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const getLocationHandler = async () => {
+    const hasPermission = await verifyPermissions();
+    if (!hasPermission) {
+      return;
+    }
+
+    try {
+      const location = await Location.getCurrentPositionAsync({
+        timeout: 5000,
+      });
+      let userRegion = {
+        latitude: parseFloat(location.coords.latitude),
+        longitude: parseFloat(location.coords.longitude),
+        latitudeDelta: 0.04,
+        longitudeDelta: 0.04,
+      };
+      setRegion(userRegion);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getLocationHandler();
+  }, []);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -43,13 +84,6 @@ const ActivityAddScreen = (props) => {
 
   const showTimepicker = () => {
     showMode("time");
-  };
-
-  const mapRegion = {
-    latitude: 37.78,
-    longitude: -122.43,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
   };
 
   const selectLocationHandler = (event) => {
@@ -103,7 +137,9 @@ const ActivityAddScreen = (props) => {
       <View>
         <MapView
           style={styles.map}
-          region={mapRegion}
+          region={region}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
           onPress={selectLocationHandler}
         >
           {markerCoordinates && (

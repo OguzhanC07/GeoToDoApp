@@ -66,8 +66,7 @@ const ActivityOverviewScreen = (props) => {
         text: "Evet",
         style: "destructive",
         onPress: () => {
-          //buraya geçelim
-          dispatch();
+          dispatch(activityActions.deleteActivity(id));
         },
       },
     ]);

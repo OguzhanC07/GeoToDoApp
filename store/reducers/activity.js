@@ -1,8 +1,13 @@
 import Activity from "../../models/activity";
-import { CREATE_ACTIVITY, SET_ACTIVITY } from "../actions/activity";
+import {
+  CREATE_ACTIVITY,
+  DELETE_ACTIVITY,
+  SET_ACTIVITY,
+} from "../actions/activity";
 
 const initialState = {
   availableActivities: [],
+  filteredActivities: [],
 };
 
 export default (state = initialState, action) => {
@@ -24,6 +29,14 @@ export default (state = initialState, action) => {
     case SET_ACTIVITY:
       return {
         availableActivities: action.activities,
+        filteredActivities: action.location,
+      };
+    case DELETE_ACTIVITY:
+      return {
+        ...state,
+        availableActivities: state.availableActivities.filter(
+          (activity) => activity.id !== action.aid
+        ),
       };
     default:
       return state;

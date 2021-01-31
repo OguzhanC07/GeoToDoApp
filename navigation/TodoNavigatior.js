@@ -5,14 +5,16 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-
 import { DrawerContent } from "../content/DrawerContent";
+import { useTheme } from "react-native-paper";
 
 import ActivityOverviewScreen from "../screens/Activity/ActivityOverviewScreen";
 import ActivityAddScreen from "../screens/Activity/ActivityAddScreen";
 import ActivityDetailScreen, {
   screenOptions as activityDetailScreenOptions,
 } from "../screens/Activity/ActivityDetailScreen";
+import ActivityMapScreen from "../screens/Activity/ActivityMapScreen";
+
 import TargetOverviewScreen from "../screens/Target/TargetOverviewScreen";
 import TargetAddScreen from "../screens/Target/TargetAddScreen";
 
@@ -44,13 +46,16 @@ const TargetStackScreen = ({ navigation }) => {
 };
 
 const ActivityStackScreen = ({ navigation }) => {
+  const { colors } = useTheme();
   return (
     <ActivityStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#009387",
+          backgroundColor: colors.background,
+          shadowColor: colors.background,
+          elevation: 0,
         },
-        headerTintColor: "#fff",
+        headerTintColor: colors.text,
       }}
     >
       <ActivityStack.Screen
@@ -63,7 +68,8 @@ const ActivityStackScreen = ({ navigation }) => {
               style={{ paddingLeft: 5 }}
               name="ios-menu"
               size={25}
-              backgroundColor="#009387"
+              color={colors.text}
+              backgroundColor={colors.background}
               onPress={() => navigation.openDrawer()}
             />
           ),
@@ -72,7 +78,8 @@ const ActivityStackScreen = ({ navigation }) => {
               style={{ paddingRight: 5 }}
               name="ios-add"
               size={25}
-              backgroundColor="#009387"
+              color={colors.text}
+              backgroundColor={colors.background}
               onPress={() => navigation.navigate("ActivityAdd")}
             />
           ),
@@ -97,18 +104,29 @@ const ActivityStackScreen = ({ navigation }) => {
 const ActivityTabScreen = ({ navigation }) => {
   return (
     <Tab.Navigator
-      // shifting={true}
+      shifting={true}
       initialRouteName="ActivityOverview"
-      activeColor="#e91e63"
+      activeColor="#fff"
     >
       <Tab.Screen
         name="ActivityOverview"
         component={ActivityStackScreen}
         options={{
           tabBarLabel: "Aktiviteler",
-          tabBarColor: "#009387",
+          tabBarColor: "#FF6347",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Harita"
+        component={ActivityMapScreen}
+        options={{
+          tabBarLabel: "Harita",
+          tabBarColor: "#d02860",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="ios-aperture" color={color} size={26} />
           ),
         }}
       />
