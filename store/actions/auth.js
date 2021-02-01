@@ -4,9 +4,20 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const SIGNUP = "SIGNUP";
 export const LOGIN = "LOGIN";
 export const AUTHENTICATE = "AUTHENTICATE";
+export const LOGOUT = "LOGOUT";
+export const SET_DID_TRY_AL = "SET_DID_TRY_AL";
 
-export const authenticate = (userId, token) => {
-  return { type: AUTHENTICATE, userId, token };
+let timer;
+
+export const setDidTryAl = () => {
+  return { type: SET_DID_TRY_AL };
+};
+
+export const authenticate = (userId, token, expiryTime) => {
+  return (dispatch) => {
+    dispatch(setLogouttimer(expiryTime));
+    dispatch({ type: AUTHENTICATE, userId, token });
+  };
 };
 
 export const signup = (username, email, password, name, surname) => {
@@ -37,7 +48,13 @@ export const signup = (username, email, password, name, surname) => {
     }
 
     const resData = await response.json();
-    dispatch(authenticate(resData.id, resData.token));
+    dispatch(
+      authenticate(
+        resData.id,
+        resData.token,
+        parseInt(resData.expiresIn) * 1000
+      )
+    );
     const expirationDate = new Date(
       new Date().getTime() + resData.expiresIn * 1000
     );
@@ -68,11 +85,37 @@ export const login = (email, password) => {
     }
 
     const resData = await response.json();
-    dispatch(authenticate(resData.id, resData.token));
+    dispatch(
+      authenticate(
+        resData.id,
+        resData.token,
+        parseInt(resData.expiresIn) * 1000
+      )
+    );
     const expirationDate = new Date(
       new Date().getTime() + resData.expiresIn * 1000
     );
     saveDataToStorage(resData.token, resData.id, expirationDate);
+  };
+};
+
+export const logout = () => {
+  clearLogouttimer();
+  AsyncStorage.removeItem("userData");
+  return { type: LOGOUT };
+};
+
+const clearLogouttimer = () => {
+  if (timer) {
+    clearTimeout(timer);
+  }
+};
+
+const setLogouttimer = (expirationTime) => {
+  return (dispatch) => {
+    timer = setTimeout(() => {
+      dispatch(logout());
+    }, expirationTime);
   };
 };
 

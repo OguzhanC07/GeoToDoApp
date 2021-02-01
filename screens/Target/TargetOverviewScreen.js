@@ -47,13 +47,6 @@ const TargetOverviewScreen = (props) => {
     });
   }, [dispatch, loadTarget]);
 
-  const selectItemHandler = (id, name) => {
-    props.navigation.navigate("TargetDetail", {
-      targetId: id,
-      targetTitle: name,
-    });
-  };
-
   const deleteItemHandler = async (id) => {
     try {
       await dispatch(targetActions.deleteTarget(id));

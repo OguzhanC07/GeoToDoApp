@@ -35,23 +35,36 @@ export default (state = initialState, action) => {
         completedActivities: action.completed,
       };
     case DELETE_ACTIVITY:
-      return {
-        ...state,
-        availableActivities: state.availableActivities.filter(
-          (activity) => activity.id !== action.aid
-        ),
-      };
-    case COMPLETE_ACTIVITY:
-      var activity = state.availableActivities.filter(
+      const availablenewActivities = state.availableActivities.filter(
+        (activity) => activity.id !== action.aid
+      );
+      let brandNewActivity = state.filteredActivities;
+      const deletedActivities = state.filteredActivities.filter(
         (act) => act.id === action.aid
       );
-      var updatedActivites = state.completedActivities.concat(activity);
+
+      if (deletedActivities.length !== 0) {
+        brandNewActivity = state.filteredActivities.filter(
+          (act) => act.id !== action.aid
+        );
+      }
+
+      return {
+        ...state,
+        availableActivities: availablenewActivities,
+        filteredActivities: brandNewActivity,
+      };
+    case COMPLETE_ACTIVITY:
+      const activity = state.availableActivities.filter(
+        (act) => act.id === action.aid
+      );
+      const updatedActivites = state.completedActivities.concat(activity);
       return {
         ...state,
         availableActivities: state.availableActivities.filter(
           (act) => act.id !== action.aid
         ),
-        completeActivity: updatedActivites,
+        completedActivities: updatedActivites,
       };
 
     default:

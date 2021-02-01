@@ -8,14 +8,16 @@ import StartupScreen from "../screens/StartupScreen";
 import AuthNavigatior from "./AuthNavigatior";
 import TodoNavigatior from "./TodoNavigatior";
 
-const Stack = createStackNavigator();
-
 const ContainerNavigator = (props) => {
   const isAuth = useSelector((state) => !!state.auth.token);
+  const didTryAutoLogin = useSelector((state) => !!state.auth.didTryAutoLogin);
+
   return (
     <NavigationContainer>
       <StatusBar hidden={true} />
-      {isAuth ? <TodoNavigatior /> : <AuthNavigatior />}
+      {isAuth && <TodoNavigatior />}
+      {!isAuth && didTryAutoLogin && <AuthNavigatior />}
+      {!isAuth && !didTryAutoLogin && <StartupScreen />}
     </NavigationContainer>
   );
 };

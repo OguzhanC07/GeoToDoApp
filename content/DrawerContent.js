@@ -14,8 +14,11 @@ import {
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import { useDispatch } from "react-redux";
+import * as authActions from "../store/actions/auth";
 
 export function DrawerContent(props) {
+  const dispatch = useDispatch();
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
@@ -59,7 +62,7 @@ export function DrawerContent(props) {
           )}
           label="Çıkış Yap"
           onPress={() => {
-            //signOut();
+            dispatch(authActions.logout());
           }}
         />
       </Drawer.Section>

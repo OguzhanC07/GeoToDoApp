@@ -143,7 +143,7 @@ const ActivityAddScreen = (props) => {
           onPress={selectLocationHandler}
         >
           {markerCoordinates && (
-            <Marker title="Picked Location" coordinate={markerCoordinates} />
+            <Marker title="Seçilen Konum" coordinate={markerCoordinates} />
           )}
         </MapView>
         <View style={styles.mapBottom}>
