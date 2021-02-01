@@ -47,8 +47,8 @@ const LoginScreen = (props) => {
     <SafeAreaView style={styles.container}>
       <Text style={styles.logo}>GeoToDo</Text>
       <Text style={styles.topMessage}>
-        Bir yere giderken yapacaklarını unutma! Telefonuna kaydet, o seni
-        uyarsın!
+        Bir yere giderken yapacaklarını unutma! Telefonuna kaydet, o sana
+        göstersin!
       </Text>
       <View style={styles.inputView}>
         <TextInput

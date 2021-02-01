@@ -7,11 +7,13 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import activityReducer from "./store/reducers/activity";
 import authReducer from "./store/reducers/auth";
+import targetReducer from "./store/reducers/target";
 
 import ContainerNavigator from "./navigation/ContainerNavigatior";
 
 const rootReducer = combineReducers({
   activity: activityReducer,
+  target: targetReducer,
   auth: authReducer,
 });
 

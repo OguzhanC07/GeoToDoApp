@@ -15,35 +15,87 @@ import ActivityDetailScreen, {
   screenOptions as activityDetailScreenOptions,
 } from "../screens/Activity/ActivityDetailScreen";
 import ActivityMapScreen from "../screens/Activity/ActivityMapScreen";
+import CompletedActivityScreen from "../screens/Activity/CompletedActivityScreen";
 
 import TargetOverviewScreen from "../screens/Target/TargetOverviewScreen";
 import TargetAddScreen from "../screens/Target/TargetAddScreen";
-import CompletedActivityScreen from "../screens/Activity/CompletedActivityScreen";
+import TargetCompleteScreen from "../screens/Target/TargetCompleteScreen";
 
 const ActivityStack = createStackNavigator();
 const TargetStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createMaterialBottomTabNavigator();
 const TopTap = createMaterialTopTabNavigator();
+const TarTopTap = createMaterialTopTabNavigator();
+
+const TargetTopTapScreen = ({ navigation }) => {
+  return (
+    <TarTopTap.Navigator>
+      <TarTopTap.Screen
+        name="TargetOverview"
+        component={TargetOverviewScreen}
+        options={{
+          title: "Hedeflerin",
+        }}
+      />
+      <TarTopTap.Screen
+        name="TargetComplete"
+        component={TargetCompleteScreen}
+        options={{
+          title: "Başardığın hedefler",
+        }}
+      />
+    </TarTopTap.Navigator>
+  );
+};
 
 const TargetStackScreen = ({ navigation }) => {
+  const { colors } = useTheme();
   return (
     <TargetStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#009387",
+          backgroundColor: colors.background,
+          shadowColor: colors.background,
+          elevation: 0,
         },
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
+        headerTintColor: colors.text,
       }}
     >
       <TargetStack.Screen
         name="TargetOverview"
-        component={TargetOverviewScreen}
+        component={TargetTopTapScreen}
+        options={{
+          title: "Hedefler",
+          headerLeft: () => (
+            <Ionicons
+              style={{ paddingLeft: 5 }}
+              name="ios-menu"
+              size={25}
+              color={colors.text}
+              backgroundColor={colors.background}
+              onPress={() => navigation.openDrawer()}
+            />
+          ),
+          headerRight: () => (
+            <Ionicons
+              style={{ paddingRight: 5 }}
+              name="ios-add"
+              size={25}
+              color={colors.text}
+              backgroundColor={colors.background}
+              onPress={() => {
+                navigation.navigate("TargetAdd");
+              }}
+            />
+          ),
+        }}
       />
-      <TargetStack.Screen name="TargetAdd" component={TargetAddScreen} />
+      <TargetStack.Screen
+        name="TargetAdd"
+        component={TargetAddScreen}
+        options={{ title: "Yeni hedef ekle" }}
+      />
     </TargetStack.Navigator>
   );
 };
