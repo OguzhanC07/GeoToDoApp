@@ -177,6 +177,7 @@ const ActivityAddScreen = (props) => {
           style={styles.inputText}
           placeholder="Aktivite Adı"
           placeholderTextColor="#003f5c"
+          value={name}
           onChangeText={(text) => {
             setName(text);
           }}
@@ -190,6 +191,7 @@ const ActivityAddScreen = (props) => {
           style={styles.textArea}
           placeholderTextColor="#003f5c"
           multiline={true}
+          value={description}
           numberOfLines={10}
           onChangeText={(text) => {
             setDescription(text);

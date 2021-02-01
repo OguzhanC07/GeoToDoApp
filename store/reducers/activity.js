@@ -3,11 +3,13 @@ import {
   CREATE_ACTIVITY,
   DELETE_ACTIVITY,
   SET_ACTIVITY,
+  COMPLETE_ACTIVITY,
 } from "../actions/activity";
 
 const initialState = {
   availableActivities: [],
   filteredActivities: [],
+  completedActivities: [],
 };
 
 export default (state = initialState, action) => {
@@ -30,6 +32,7 @@ export default (state = initialState, action) => {
       return {
         availableActivities: action.activities,
         filteredActivities: action.location,
+        completedActivities: action.completed,
       };
     case DELETE_ACTIVITY:
       return {
@@ -38,6 +41,19 @@ export default (state = initialState, action) => {
           (activity) => activity.id !== action.aid
         ),
       };
+    case COMPLETE_ACTIVITY:
+      var activity = state.availableActivities.filter(
+        (act) => act.id === action.aid
+      );
+      var updatedActivites = state.completedActivities.concat(activity);
+      return {
+        ...state,
+        availableActivities: state.availableActivities.filter(
+          (act) => act.id !== action.aid
+        ),
+        completeActivity: updatedActivites,
+      };
+
     default:
       return state;
   }

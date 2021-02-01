@@ -55,8 +55,21 @@ const ActivityOverviewScreen = (props) => {
     });
   };
 
-  const editActivityHandler = (id) => {
-    props.navigation.navigate("EditActivity", { activityId: id });
+  const setCompleteHandler = (id) => {
+    Alert.alert(
+      "Emin misin?",
+      "Bu aktiviteyi tamamlamak istediğine emin misin?",
+      [
+        { text: "Hayır", style: "default" },
+        {
+          text: "Evet",
+          style: "destructive",
+          onPress: () => {
+            dispatch(activityActions.completeActivity(id));
+          },
+        },
+      ]
+    );
   };
 
   const deleteHandler = (id) => {
@@ -123,7 +136,11 @@ const ActivityOverviewScreen = (props) => {
             selectItemHandler(itemData.item.id, itemData.item.name);
           }}
         >
-          <Button color={Colors.primary} title="Düzenle" onPress={() => {}} />
+          <Button
+            color={Colors.accent}
+            title="Tamamla"
+            onPress={setCompleteHandler.bind(this, itemData.item.id)}
+          />
           <Button
             color={Colors.primary}
             title="Sil"

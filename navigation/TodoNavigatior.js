@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { DrawerContent } from "../content/DrawerContent";
 import { useTheme } from "react-native-paper";
@@ -17,11 +18,13 @@ import ActivityMapScreen from "../screens/Activity/ActivityMapScreen";
 
 import TargetOverviewScreen from "../screens/Target/TargetOverviewScreen";
 import TargetAddScreen from "../screens/Target/TargetAddScreen";
+import CompletedActivityScreen from "../screens/Activity/CompletedActivityScreen";
 
 const ActivityStack = createStackNavigator();
 const TargetStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createMaterialBottomTabNavigator();
+const TopTap = createMaterialTopTabNavigator();
 
 const TargetStackScreen = ({ navigation }) => {
   return (
@@ -60,7 +63,7 @@ const ActivityStackScreen = ({ navigation }) => {
     >
       <ActivityStack.Screen
         name="ActivityOverview"
-        component={ActivityOverviewScreen}
+        component={ActitivityTopTabScreen}
         options={{
           title: "Aktiviteler",
           headerLeft: () => (
@@ -98,6 +101,27 @@ const ActivityStackScreen = ({ navigation }) => {
         options={activityDetailScreenOptions}
       />
     </ActivityStack.Navigator>
+  );
+};
+
+const ActitivityTopTabScreen = ({ navigation }) => {
+  return (
+    <TopTap.Navigator>
+      <TopTap.Screen
+        name="ActivityOverview"
+        component={ActivityOverviewScreen}
+        options={{
+          title: "Yapman Gerekenler",
+        }}
+      />
+      <TopTap.Screen
+        name="CompletedActivities"
+        component={CompletedActivityScreen}
+        options={{
+          title: "Tamamladıkların",
+        }}
+      />
+    </TopTap.Navigator>
   );
 };
 

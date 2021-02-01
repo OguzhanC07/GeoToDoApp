@@ -4,6 +4,7 @@ import Activity from "../../models/activity";
 export const CREATE_ACTIVITY = "CREATE_ACTIVITY";
 export const SET_ACTIVITY = "SET_ACTIVITY";
 export const DELETE_ACTIVITY = "DELETE_ACTIVITY";
+export const COMPLETE_ACTIVITY = "COMPLETE_ACTIVITY";
 
 export const fetchActivity = () => {
   return async (dispatch, getState) => {
@@ -31,17 +32,19 @@ export const fetchActivity = () => {
             resData[key].description,
             resData[key].selectedTime,
             resData[key].latitude,
-            resData[key].longitude
+            resData[key].longitude,
+            resData[key].isCompleted
           )
         );
       }
 
       dispatch({
         type: SET_ACTIVITY,
-        activities: loadedActivities,
+        activities: loadedActivities.filter((act) => act.isCompleted == false),
         location: loadedActivities.filter(
           (act) => act.latitude !== 0 && act.longitude !== 0
         ),
+        completed: loadedActivities.filter((act) => act.isCompleted == true),
       });
     } catch (err) {
       console.log(err);
@@ -67,6 +70,32 @@ export const deleteActivity = (activityId) => {
       }
 
       dispatch({ type: DELETE_ACTIVITY, aid: activityId });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const completeActivity = (activityId) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    try {
+      const response = await fetch(
+        apiUrl.baseUrl + `activity/CompleteActivity/${activityId}`,
+        {
+          method: "Put",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Ooops! Bir şeyler ters gitti");
+      }
+
+      dispatch({ type: COMPLETE_ACTIVITY, aid: activityId });
     } catch (err) {
       console.log(err);
     }
