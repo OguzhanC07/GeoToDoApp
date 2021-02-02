@@ -13,11 +13,9 @@ const CompletedActivityScreen = (props) => {
         <ActivityItem
           title={itemData.item.name}
           date={
-            new Date(itemData.item.selectedTime).toDateString() +
-            " - " +
-            new Date(itemData.item.selectedTime).getHours() +
-            ":" +
-            new Date(itemData.item.selectedTime).getMinutes()
+            new Date(itemData.item.selectedTime).toLocaleDateString("tr-TR") +
+            "-" +
+            new Date(itemData.item.selectedTime).toLocaleTimeString("tr-TR")
           }
           onSelect={() => {
             //selectItemHandler(itemData.item.id, itemData.item.name);

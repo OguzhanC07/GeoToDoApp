@@ -41,16 +41,6 @@ const TargetDetail = (props) => {
               {new Date(props.achievedTime).toLocaleDateString("tr-TR")}
             </Text>
           </View>
-          <View style={styles.itemText}>
-            <Text style={styles.totalAmount}>Kaç Gün Sürdü</Text>
-            <Text style={styles.totalAmount}>
-              {Math.floor(
-                (Date.parse(props.achievedTime) -
-                  Date.parse(props.achievedTime)) /
-                  86400000
-              )}
-            </Text>
-          </View>
         </View>
       )}
     </View>

@@ -7,6 +7,7 @@ import {
   Button,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -25,6 +26,7 @@ const ActivityAddScreen = (props) => {
   const [show, setShow] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState();
   const [openMap, setOpenMap] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [region, setRegion] = useState();
 
   const verifyPermissions = async () => {
@@ -107,15 +109,19 @@ const ActivityAddScreen = (props) => {
   const saveHandler = async (selectedLocation, name, description, date) => {
     if (selectedLocation == undefined) {
       try {
+        setIsLoading(true);
         await dispatch(
           activityActions.createActivity(name, description, date, 0, 0)
         );
+        setIsLoading(false);
         props.navigation.goBack();
       } catch (error) {
+        setIsLoading(false);
         console.log(error);
       }
     } else {
       try {
+        setIsLoading(true);
         await dispatch(
           activityActions.createActivity(
             name,
@@ -125,8 +131,10 @@ const ActivityAddScreen = (props) => {
             selectedLocation.lng
           )
         );
+        setIsLoading(false);
         props.navigation.goBack();
       } catch (error) {
+        setIsLoading(false);
         console.log(error);
       }
     }
@@ -214,11 +222,9 @@ const ActivityAddScreen = (props) => {
       </View>
       <Text>Şu anda seçilen Tarih</Text>
       <Text>
-        {new Date(date).toDateString() +
-          " " +
-          new Date(date).getHours() +
-          ":" +
-          new Date(date).getMinutes()}
+        {new Date(date).toLocaleDateString("tr-TR") +
+          " - " +
+          new Date(date).toLocaleTimeString("tr-TR")}
       </Text>
       {show && (
         <DateTimePicker
@@ -238,14 +244,18 @@ const ActivityAddScreen = (props) => {
         <Text>Konum Ekle</Text>
       </TouchableOpacity>
       {selectedLocation ? <Text>Konum seçimi yapıldı.</Text> : null}
-      <TouchableOpacity
-        style={styles.loginBtn}
-        onPress={() => {
-          saveHandler(selectedLocation, name, description, date);
-        }}
-      >
-        <Text style={styles.loginText}>Kaydet</Text>
-      </TouchableOpacity>
+      {isLoading ? (
+        <ActivityIndicator size="large" color="black" />
+      ) : (
+        <TouchableOpacity
+          style={styles.loginBtn}
+          onPress={() => {
+            saveHandler(selectedLocation, name, description, date);
+          }}
+        >
+          <Text style={styles.loginText}>Kaydet</Text>
+        </TouchableOpacity>
+      )}
     </SafeAreaView>
   );
 };

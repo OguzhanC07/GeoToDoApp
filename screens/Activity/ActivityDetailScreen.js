@@ -16,11 +16,13 @@ const ActivityDetailScreen = (props) => {
       <View style={styles.locationContainer}>
         <View style={styles.dateContainer}>
           <Text style={styles.dateText}>
-            {new Date(selectedActivity.selectedTime).toDateString() +
-              " - " +
-              new Date(selectedActivity.selectedTime).getHours() +
-              ":" +
-              new Date(selectedActivity.selectedTime).getMinutes()}
+            {new Date(selectedActivity.selectedTime).toLocaleDateString(
+              "tr-TR"
+            ) +
+              "-" +
+              new Date(selectedActivity.selectedTime).toLocaleTimeString(
+                "tr-TR"
+              )}
           </Text>
         </View>
         <View style={styles.addressContainer}>
