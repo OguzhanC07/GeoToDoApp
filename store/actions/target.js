@@ -30,7 +30,7 @@ export const fetchTarget = () => {
         if (Object.hasOwnProperty.call(resData, key)) {
           loadedTargets.push(
             new Target(
-              resData[key].id,
+              resData[key].id.toString(),
               resData[key].name,
               resData[key].savedTime,
               resData[key].achievedTime,

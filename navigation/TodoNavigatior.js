@@ -21,12 +21,56 @@ import TargetOverviewScreen from "../screens/Target/TargetOverviewScreen";
 import TargetAddScreen from "../screens/Target/TargetAddScreen";
 import TargetCompleteScreen from "../screens/Target/TargetCompleteScreen";
 
+import ProfileOverviewScreen from "../screens/Profile/ProfileOverviewScreen";
+import EditProfileScreen from "../screens/Profile/EditProfileScreen";
+import ResetPasswordScreen from "../screens/Profile/ResetPasswordScreen";
+
 const ActivityStack = createStackNavigator();
 const TargetStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createMaterialBottomTabNavigator();
 const TopTap = createMaterialTopTabNavigator();
 const TarTopTap = createMaterialTopTabNavigator();
+
+const ProfileStackScreen = ({ navigation }) => {
+  const { colors } = useTheme();
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen
+        name="ProfileOverview"
+        component={ProfileOverviewScreen}
+        options={{
+          title: "Profil",
+          headerLeft: () => (
+            <Ionicons
+              style={{ paddingLeft: 5 }}
+              name="ios-menu"
+              size={25}
+              color={colors.text}
+              backgroundColor={colors.background}
+              onPress={() => navigation.openDrawer()}
+            />
+          ),
+        }}
+      />
+      <ProfileStack.Screen
+        name="ProfileEdit"
+        component={EditProfileScreen}
+        options={{
+          title: "Profili Düzenle",
+        }}
+      />
+      <ProfileStack.Screen
+        name="ProfileResetPassword"
+        component={ResetPasswordScreen}
+        options={{
+          title: "Şifreyi Değiştir",
+        }}
+      />
+    </ProfileStack.Navigator>
+  );
+};
 
 const TargetTopTapScreen = ({ navigation }) => {
   return (
@@ -225,9 +269,10 @@ const TodoNavigatior = () => {
         name="Target"
         component={TargetStackScreen}
         options={{
-          title: "Hedeflerin",
+          headerTitle: "Hedeflerin",
         }}
       ></Drawer.Screen>
+      <Drawer.Screen name="Profile" component={ProfileStackScreen} />
     </Drawer.Navigator>
   );
 };

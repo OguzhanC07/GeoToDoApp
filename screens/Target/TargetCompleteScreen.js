@@ -1,21 +1,20 @@
-import React, { useCallback, useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Alert,
-  Button,
-  ActivityIndicator,
-  Dimensions,
-} from "react-native";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 
-import Colors from "../../constants/Colors";
 import TargetDetail from "../../components/TargetDetail";
 
 const TargetCompleteScreen = (props) => {
   const targets = useSelector((state) => state.target.completedTargets);
+
+  if (targets.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <Text>Hedeflerin için her zaman bekliyorum</Text>
+      </View>
+    );
+  }
 
   return (
     <FlatList
@@ -35,6 +34,8 @@ const TargetCompleteScreen = (props) => {
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  centered: { flex: 1, justifyContent: "center", alignItems: "center" },
+});
 
 export default TargetCompleteScreen;

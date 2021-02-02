@@ -10,6 +10,7 @@ import {
   Platform,
   Alert,
   Button,
+  Linking,
 } from "react-native";
 import MapView from "react-native-maps";
 import { useSelector } from "react-redux";
@@ -99,6 +100,22 @@ const ActivityMapScreen = (props) => {
       }, 10);
     });
   });
+
+  const getDirectionHandler = (lat, lng) => {
+    const scheme = Platform.select({
+      ios: "maps:0,0?q=",
+      android: "geo:0,0?q=",
+    });
+
+    const latLng = `${lat},${lng}`;
+    const label = "Custom Label";
+    const url = Platform.select({
+      ios: `${scheme}${label}@${latLng}`,
+      android: `${scheme}${latLng}(${label})`,
+    });
+
+    Linking.openURL(url);
+  };
 
   const interpolations = activities.map((marker, index) => {
     const inputRange = [
@@ -206,7 +223,11 @@ const ActivityMapScreen = (props) => {
             </View>
             <View style={styles.button}>
               <TouchableOpacity
-                onPress={() => {}}
+                onPress={getDirectionHandler.bind(
+                  this,
+                  activity.latitude,
+                  activity.longitude
+                )}
                 style={[
                   styles.signIn,
                   {
@@ -224,7 +245,7 @@ const ActivityMapScreen = (props) => {
                     },
                   ]}
                 >
-                  Detayları göster
+                  Yol Tarifi Al
                 </Text>
               </TouchableOpacity>
             </View>

@@ -58,6 +58,9 @@ const TargetOverviewScreen = (props) => {
   const achieveTargetHandler = async (id) => {
     try {
       await dispatch(targetActions.completeTarget(id));
+      Alert.alert("Tebrikler!", "Hedefine ulaştığın için tebrikler!", [
+        { text: "Tamam" },
+      ]);
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +100,7 @@ const TargetOverviewScreen = (props) => {
       onRefresh={loadTarget}
       refreshing={isRefreshing}
       data={targets}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.id.toString()}
       renderItem={(itemData) => (
         <ItemBox
           name={itemData.item.name}
