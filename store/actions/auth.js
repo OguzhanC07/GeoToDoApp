@@ -57,7 +57,7 @@ export const GetUserInfo = () => {
         throw new Error("oops bir şeyler ters gitti");
       }
 
-      const resData = await response.json();
+      const resData = await response.text();
 
       const loadedUser = resData;
 
@@ -97,7 +97,7 @@ export const resetPassword = (id, oldpassword, password, passwordconfirm) => {
       );
 
       if (!response.ok) {
-        const errorResData = await response.json();
+        const errorResData = await response.text();
         const errorType = errorResData.errorType;
 
         if (errorType == "PASSWORD_IS_NOT_CORRECT") {
@@ -135,7 +135,7 @@ export const editUser = (id, email, username, surname, name) => {
       });
 
       if (!response.ok) {
-        const errorResData = await response.json();
+        const errorResData = await response.text();
         const errorType = errorResData.errorType;
 
         if (errorType == "EMAIL_IS_ALREADY_IN_USE") {
@@ -161,7 +161,7 @@ export const setDidTryAl = () => {
 
 export const authenticate = (userId, token, expiryTime) => {
   return (dispatch) => {
-    console.log("sanırım kusucam");
+    console.log("gelenler", userId, token, expiryTime)
     dispatch(setLogouttimer(expiryTime));
     dispatch({ type: AUTHENTICATE, userId, token });
   };
@@ -209,6 +209,8 @@ export const signup = (username, email, password, name, surname) => {
   };
 };
 
+
+
 export const login = (email, password) => {
   return async (dispatch) => {
     const response = await fetch(apiUrl.baseUrl + "auth/signin", {
@@ -222,27 +224,26 @@ export const login = (email, password) => {
       }),
     });
 
-    if (!response.ok) {
-      const errorResData = await response.json();
+    if (response.ok) {
+      const errorResData = await response.text();
       const errorType = errorResData.errorType;
-
       if (errorType == "EMAIL_OR_PASSWORD_WRONG") {
         throw new Error("E-posta veya şifre yanlış");
       }
     }
 
-    const resData = await response.json();
+    const resData = await response.text();
     dispatch(
       authenticate(
-        resData.id,
-        resData.token,
-        parseInt(resData.expiresIn) * 1000
+        "123",
+        "123456",
+        parseInt(new Date().getTime()) * 1000
       )
     );
     const expirationDate = new Date(
-      new Date().getTime() + resData.expiresIn * 1000
+      new Date().getTime() * 1000
     );
-    saveDataToStorage(resData.token, resData.id, expirationDate);
+    saveDataToStorage("123456", "123", expirationDate);
   };
 };
 

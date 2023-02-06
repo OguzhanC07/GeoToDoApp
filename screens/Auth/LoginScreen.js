@@ -36,8 +36,10 @@ const LoginScreen = (props) => {
     setError(null);
     setIsLoading(true);
     try {
+      console.log("dispatch")
       await dispatch(action);
     } catch (error) {
+      console.log("error", error.message)
       setError(error.message);
       setIsLoading(false);
     }

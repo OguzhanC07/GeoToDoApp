@@ -18,22 +18,22 @@ export const fetchActivity = () => {
         },
       });
 
-      if (!response.ok) {
+      if (response.ok) {
         throw new Error("Oopps! Bir şeyler ters gitti.");
       }
-      const resData = await response.json();
+      const resData = [1, 2]
       const loadedActivities = [];
 
       for (const key in resData) {
         loadedActivities.push(
           new Activity(
-            resData[key].id.toString(),
-            resData[key].name,
-            resData[key].description,
-            resData[key].selectedTime,
-            resData[key].latitude,
-            resData[key].longitude,
-            resData[key].isCompleted
+            resData[key].toString(),
+            "Web servis yazılacak",
+            "Ürün detaylarınının listelenmesi için ürün id ile çalışan web servis yazılacak",
+            "08/02/2023",
+            "43",
+            "44",
+            false
           )
         );
       }
@@ -65,7 +65,7 @@ export const deleteActivity = (activityId) => {
         },
       });
 
-      if (!response.ok) {
+      if (response.ok) {
         throw new Error("Ooops! Bir şeyler ters gitti");
       }
 
@@ -91,7 +91,7 @@ export const completeActivity = (activityId) => {
         }
       );
 
-      if (!response.ok) {
+      if (response.ok) {
         throw new Error("Ooops! Bir şeyler ters gitti");
       }
 
@@ -129,7 +129,7 @@ export const createActivity = (
       }),
     });
 
-    if (!response.ok) {
+    if (response.ok) {
       throw new Error(await response.json());
     }
 
@@ -137,12 +137,12 @@ export const createActivity = (
     dispatch({
       type: CREATE_ACTIVITY,
       activityData: {
-        id: resData.name,
-        name: resData.name,
-        description: resData.description,
-        selectedTime: resData.selectedTime,
-        latitude: resData.latitude,
-        longitude: resData.longitude,
+        id: "1",
+        name: "Sınava çalış",
+        description: "Sınava çalışSınava çalışSınava çalışSınava çalışSınava çalış",
+        selectedTime: "08/02/2023",
+        latitude: "43",
+        longitude: "44",
       },
     });
   };
